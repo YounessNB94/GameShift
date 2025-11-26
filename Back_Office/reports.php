@@ -1,5 +1,4 @@
 <?php
-// Activer l'affichage des erreurs
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -10,12 +9,10 @@ if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
 }
 
-// Total des ventes en euros
 $total_sales_query = "SELECT SUM(total_amount) AS total_sales FROM orders";
 $total_sales_result = $conn->query($total_sales_query);
 $total_sales = $total_sales_result->fetch_assoc()['total_sales'] ?? 0;
 
-// Nombre de clients actifs
 $active_clients_query = "SELECT COUNT(DISTINCT user_id) AS active_clients FROM orders";
 $active_clients_result = $conn->query($active_clients_query);
 $active_clients = $active_clients_result->fetch_assoc()['active_clients'] ?? 0;

@@ -20,14 +20,12 @@
 
     <script src="logs.js"></script>
     <script>
-        // Fonction pour afficher les logs dans le textarea
         function displayLogsInTextarea() {
             const logs = getLogs();
             const logDisplay = document.getElementById('logDisplay');
             logDisplay.value = logs.join("\n");
         }
 
-        // Appeler la fonction pour afficher les logs dans le textarea
         window.onload = displayLogsInTextarea;
     </script>
 

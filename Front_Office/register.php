@@ -1,7 +1,6 @@
 <?php
 
-session_start(); // Toujours au dÃ©but de votre fichier
-// Votre code ici
+session_start(); 
 
 require_once 'utils/bdd/database.php';
 use PHPMailer\PHPMailer\PHPMailer;
@@ -68,13 +67,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!preg_match('/[0-9]/', $password)) {
         $password_error .= "Il manque un chiffre. ";
     }
-    if (!preg_match('/[\W_]/', $password)) { // CaractÃ¨res spÃ©ciaux
+    if (!preg_match('/[\W_]/', $password)) { 
         $password_error .= "Il manque un caractÃ¨re spÃ©cial. ";
     }
 
 
 
-            // Envoyer l'email de vÃ©rification
             $mail = new PHPMailer(true);
             try {
                 
@@ -91,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->addAddress($email);
 
                 $mail->isHTML(true);
-                $mail->Subject = 'Vérification de votre compte';
+                $mail->Subject = 'Vï¿½rification de votre compte';
                 $verification_link = "http://5.135.149.31/verifier_email.php?email=" . urlencode($email) . "&token=" . $verification_token;
-                $mail->Body = "Cliquez sur ce lien pour vérifier votre compte : <a href='$verification_link'>Vérifier mon compte</a>";
+                $mail->Body = "Cliquez sur ce lien pour vï¿½rifier votre compte : <a href='$verification_link'>Vï¿½rifier mon compte</a>";
 
                 $mail->send();
                 echo "Un email de v&eacuterification a &eacutet&eacute envoy&eacute &agrave votre adresse.";
             } catch (Exception $e) {
-                echo "L'email n'a pas pu être envoy&eacute. Erreur: {$mail->ErrorInfo}";
+                echo "L'email n'a pas pu ï¿½tre envoy&eacute. Erreur: {$mail->ErrorInfo}";
             }
         }
     } catch (PDOException $e) {

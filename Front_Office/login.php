@@ -139,7 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-decoration: underline;
         }
 
-        /* Messages d'erreur */
         .error-message {
             color: red;
             margin-bottom: 10px;

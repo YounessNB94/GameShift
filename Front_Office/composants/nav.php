@@ -1,7 +1,5 @@
 <?php
-require_once 'utils/bdd/database.php'; // Assurez-vous que ce chemin est correct
-
-// Récupérer les catégories dynamiquement depuis la base de données
+require_once 'utils/bdd/database.php'; 
 $query = "SELECT DISTINCT genre FROM games WHERE genre IS NOT NULL ORDER BY genre";
 $stmt = $pdo->query($query);
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -73,7 +71,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .dropdown-menu {
-            display: none; /* Par défaut, le menu est caché */
+            display: none; 
             position: absolute;
             top: 40px;
             left: 0;
@@ -85,7 +83,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .dropdown-menu.show {
-            display: block; /* Affiche le menu lorsqu'il a la classe 'show' */
+            display: block; 
         }
 
         .dropdown-item {
@@ -261,7 +259,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     suggestions.innerHTML = '';
                 }
             } catch (error) {
-                console.error('Erreur lors de la récupération des suggestions:', error);
+                console.error('Erreur lors de la rï¿½cupï¿½ration des suggestions:', error);
             }
         }
 
@@ -277,7 +275,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         function toggleDropdown(event) {
-            event.preventDefault(); // Empêche le comportement par défaut du lien
+            event.preventDefault(); 
             const dropdownMenu = event.target.closest('.nav-item').querySelector('.dropdown-menu');
             dropdownMenu.classList.toggle('show');
         }
@@ -306,7 +304,7 @@ async function showSuggestions() {
             suggestions.innerHTML = '';
         }
     } catch (error) {
-        console.error('Erreur lors de la récupération des suggestions:', error);
+        console.error('Erreur lors de la rï¿½cupï¿½ration des suggestions:', error);
     }
 }
 

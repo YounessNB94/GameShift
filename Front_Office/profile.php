@@ -5,12 +5,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// D�marrer la session uniquement si n�cessaire
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// V�rifier si l'utilisateur est connect�
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -19,13 +17,11 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $message = '';
 
-// R�cup�rer les informations de l'utilisateur
 $query = "SELECT username, email, first_name, last_name, age, address FROM users WHERE user_id = ?";
 $stmt = $pdo->prepare($query);
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
 
-// Traitement de la mise � jour des informations utilisateur
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = htmlspecialchars(trim($_POST['username']));
     $email = htmlspecialchars(trim($_POST['email']));
@@ -35,11 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $age = (int) htmlspecialchars(trim($_POST['age']));
     $address = htmlspecialchars(trim($_POST['address']));
 
-    // V�rification des champs obligatoires
     if (empty($username) || empty($email)) {
         $message = "Le pseudo et l'email sont obligatoires.";
     } else {
-        // Construire la requ�te de mise � jour
         $query = "UPDATE users SET username = ?, email = ?, first_name = ?, last_name = ?, age = ?, address = ?";
         $params = [$username, $email, $first_name, $last_name, $age, $address];
 
@@ -53,17 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt = $pdo->prepare($query);
 
-        // Ex�cuter la requ�te et v�rifier le r�sultat
         if ($stmt->execute($params)) {
             $message = "Profil mis � jour avec succ�s.";
-            $_SESSION['username'] = $username; // Mettre � jour la session
+            $_SESSION['username'] = $username; 
         } else {
             $message = "Erreur lors de la mise � jour.";
         }
     }
 }
 
-// R�cup�rer les jeux achet�s par l'utilisateur
 
 $stmt->execute([$user_id]);
 $games = $stmt->fetchAll();
@@ -138,12 +130,10 @@ $games = $stmt->fetchAll();
     <h1>Profil utilisateur</h1>
     <p>Bienvenue, <?= htmlspecialchars($user['username']); ?> !</p>
 
-    <!-- Afficher les messages -->
     <?php if (!empty($message)): ?>
         <p><?= htmlspecialchars($message); ?></p>
     <?php endif; ?>
 
-    <!-- Section de mise � jour des informations -->
     <div class="card">
    <h2>Modifier vos informations</h2>
         <form action="profile.php" method="POST">
@@ -177,7 +167,6 @@ $games = $stmt->fetchAll();
 
     </div>
 
-    <!-- Section des jeux achet�s -->
     <div class="card">
         <h2>Vos jeux achet&eacutes</h2>
         <?php if (!empty($games)): ?>

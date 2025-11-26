@@ -2,7 +2,7 @@
 require_once ('utils/bdd/database.php');
 
 $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
-$limit = 15; // Nombre de jeux à charger
+$limit = 15; 
 
 $query = "SELECT * FROM games LIMIT $offset, $limit";
 $stmt = $pdo->query($query);

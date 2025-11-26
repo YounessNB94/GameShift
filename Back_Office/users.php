@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="stylesu.css">
 </head>
 <body>
-    <!-- Barre latérale -->
     <div class="sidebar">
         <h2>Back Office</h2>
         <ul>

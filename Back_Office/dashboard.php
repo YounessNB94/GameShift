@@ -94,7 +94,6 @@ $sales_labels_json = json_encode(array_keys($sales_data));
         const salesLabels = <?php echo $sales_labels_json; ?>;
         const salesData = <?php echo $sales_data_json; ?>;
 
-        // Configuration du graphique
         const ctx = document.getElementById('salesChart').getContext('2d');
         const salesChart = new Chart(ctx, {
             type: 'line',

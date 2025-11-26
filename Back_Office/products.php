@@ -54,7 +54,6 @@ if (!$result) {
             </thead>
             <tbody>
             <?php
-                // Vérification des résultats
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "

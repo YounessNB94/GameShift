@@ -395,9 +395,9 @@ header ul li a{
     z-index: 1; 
 }
 
-.slider > * { /* Sélecteur pour le contenu à l'intérieur de .slider */
-    position: relative; /* Nécessaire pour que le contenu soit au-dessus du flou */
-    z-index: 2; /* S'assurer que le contenu est au-dessus du flou */
+.slider > * {
+    position: relative; 
+    z-index: 2; 
 }
 
 .slider .img{

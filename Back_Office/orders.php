@@ -56,7 +56,6 @@ $result = $conn->query($query);
             </thead>
             <tbody>
                 <?php
-                // Affichage des données
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "

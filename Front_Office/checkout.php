@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Inclure l'autoloader généré par Composer
+// Inclure l'autoloader gï¿½nï¿½rï¿½ par Composer
 require 'phpmailerANDvortex/vendor/autoload.php';
 
 use PayPal\Rest\ApiContext;
@@ -18,28 +18,26 @@ use PayPal\Api\Payment;
 // Configuration de l'API PayPal
 $apiContext = new ApiContext(
     new OAuthTokenCredential(
-        'AcUvZONJ3rNGU7bm-CHL_Gz0W3zfRvv0Xrhw3fOfs_YzSYbWtd8skTolG1C7ePcYLMRzncdVpR-4N-Fa', // Remplacez par votre Client ID PayPal
-        'EL8bVZ5-l3WrzNOrLsbyMsXjJagjFVGPQ9mVfmrudif-ruSarYy1jiOPelYPD92lB95mP4rBdX5Llv39' // Remplacez par votre Secret PayPal
+        'AcUvZONJ3rNGU7bm-CHL_Gz0W3zfRvv0Xrhw3fOfs_YzSYbWtd8skTolG1C7ePcYLMRzncdVpR-4N-Fa', 
+        'EL8bVZ5-l3WrzNOrLsbyMsXjJagjFVGPQ9mVfmrudif-ruSarYy1jiOPelYPD92lB95mP4rBdX5Llv39'
     )
 );
 
 // Configurer les logs PayPal
 $apiContext->setConfig([
-    'mode' => 'sandbox', // Passez à 'live' en production
+    'mode' => 'sandbox', 
     'log.LogEnabled' => true,
-    'log.FileName' => '/var/www/html/logs/PayPal.log', // Changez vers un répertoire accessible
+    'log.FileName' => '/var/www/html/logs/PayPal.log', /
     'log.LogLevel' => 'DEBUG',
 ]);
 
-// Vérifiez si un montant a été reçu
 if (!isset($_POST['total']) || !is_numeric($_POST['total']) || $_POST['total'] <= 0) {
-    die("Montant non spécifié ou invalide.");
+    die("Montant non spï¿½cifiï¿½ ou invalide.");
 }
 
 $total = number_format($_POST['total'], 2, '.', '');
 
 try {
-    // Créer un paiement PayPal
     $payer = new Payer();
     $payer->setPaymentMethod('paypal');
 
@@ -67,11 +65,10 @@ try {
     exit;
 
 } catch (Exception $e) {
-    // Afficher les erreurs pour déboguer
     echo "<pre>";
     print_r($e->getMessage());
     echo "</pre>";
-    die("Erreur lors de la création du paiement PayPal.");
+    die("Erreur lors de la crï¿½ation du paiement PayPal.");
 }
 
 ?>

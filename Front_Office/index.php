@@ -37,10 +37,10 @@ session_start();
 
         <div class="connecter">
             <?php if (isset($_SESSION['email']) && !empty($_SESSION['email'])): ?>
-                <!-- Si l'utilisateur est connecté -->
+                <!-- utilisateur  connectÃ© -->
                 <a href="jeux.php"><button>Voir les jeux</button></a>
             <?php else: ?>
-                <!-- Si l'utilisateur n'est pas connecté -->
+                <!-- utilisateur pas connectÃ© -->
                 <a href="login.php"><button>Se connecter</button></a>
             <?php endif; ?>
         </div>
@@ -55,11 +55,9 @@ session_start();
 <section class="section_produits">
     <div class="produits">
         <?php
-        // Récupérer les jeux depuis la base de données
         $query = "SELECT * FROM games LIMIT 12";
         $stmt = $pdo->query($query);
 
-        // Boucle pour afficher chaque jeu dans une carte
         while ($game = $stmt->fetch(PDO::FETCH_ASSOC)) {
             echo '
             <div class="carte">

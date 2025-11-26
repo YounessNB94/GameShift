@@ -1,6 +1,5 @@
 <?php
-session_start(); // Toujours au début de votre fichier
-// Votre code ici
+session_start(); 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -23,21 +22,17 @@ session_start(); // Toujours au début de votre fichier
  
   <br>
   <?php
-// Récupérer un jeu aléatoire depuis la base de données
 $query_random = "SELECT * FROM games ORDER BY RAND() LIMIT 1";
 $stmt_random = $pdo->query($query_random);
 $random_game = $stmt_random->fetch(PDO::FETCH_ASSOC);
 ?>
 <div class="slider_hero">
     <?php if ($random_game): ?>
-        <!-- Image de fond floutée -->
         <img src="<?= htmlspecialchars($random_game['image_url']); ?>" alt="<?= htmlspecialchars($random_game['title']); ?>" class="slider-hero-image">
 
-        <!-- Contenu du slider -->
          <br>
         <div class="slider-hero-content">
              <img src="<?= htmlspecialchars($random_game['image_url']); ?>" alt="<?= htmlspecialchars($random_game['title']); ?>" class="center-game-image">
-            <!-- Texte superposé -->
             <div class="slider-hero-text">
                 <h1><?= htmlspecialchars($random_game['title']); ?></h1>
                 <p><?= htmlspecialchars($random_game['description']); ?></p> 
@@ -47,7 +42,6 @@ $random_game = $stmt_random->fetch(PDO::FETCH_ASSOC);
             </div>
             <br>
 
-            <!-- Image principale au centre -->
           
         </div>
     <?php else: ?>
@@ -64,7 +58,6 @@ $random_game = $stmt_random->fetch(PDO::FETCH_ASSOC);
                 $query = "SELECT * FROM games LIMIT 100";
                 $stmt = $pdo->query($query);
 
-                // Boucle pour afficher chaque jeu dans une carte
                 while ($game = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo '
                     <div class="carte">

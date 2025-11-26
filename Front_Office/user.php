@@ -1,6 +1,5 @@
 <?php
-session_start(); // Toujours au début de votre fichier
-// Votre code ici
+session_start(); 
 ?>
 <!DOCTYPE html>
 <html lang="fr">

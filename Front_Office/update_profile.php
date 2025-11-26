@@ -12,14 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $age = (int) htmlspecialchars(trim($_POST['age']));
     $address = htmlspecialchars(trim($_POST['address']));
 
-    // Vérification des champs requis
     if (empty($username) || empty($email)) {
         $_SESSION['message'] = "Pseudo et email sont obligatoires.";
         header("Location: profile.php");
         exit();
     }
 
-    // Mise à jour des informations utilisateur
     $query = "UPDATE users SET username = ?, email = ?, first_name = ?, last_name = ?, age = ?, address = ?";
     if ($password) {
         $query .= ", password = ?";
