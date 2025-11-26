@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres - Back Office</title>
+    <link rel="stylesheet" href="styless.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Back Office</h2>
+        <ul>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="products.php">Produits</a></li>
+            <li><a href="users.php">Utilisateurs</a></li>
+            <li><a href="orders.php">Commandes</a></li>
+            <li><a href="reports.php">Rapports</a></li>
+            <li><a href="settings.html">Paramètres</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Paramètres du site</h1>
+
+        <form id="settings-form">
+            <label for="site-name">Nom du site :</label>
+            <input type="text" id="site-name" name="site-name" value="Gameshop" disabled>
+
+            <label for="currency">Devise :</label>
+            <input type="text" id="currency" name="currency" value="EUR" disabled>
+
+            <button type="submit" disabled>Enregistrer les modifications</button>
+        </form>
+    </div>
+</body>
+</html>
