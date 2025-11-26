@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envoyer la Newsletter</title>
+</head>
+<body>
+    <h1>Envoyer la Newsletter</h1>
+    <form action="utils/fonctions/send_newsletter_to_clients.php" method="POST">
+        <label for="subject">Sujet de la newsletter :</label><br>
+        <input type="text" id="subject" name="subject" required><br><br>
+        
+        <label for="message">Contenu de la newsletter :</label><br>
+        <textarea id="message" name="message" rows="10" cols="50" required></textarea><br><br>
+        
+        <button type="submit">Envoyer la Newsletter</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal de Logs</title>
+    <style>
+        textarea {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Logs du site</h1>
+    <textarea id="logDisplay" readonly></textarea>
+
+    <button onclick="clearLogs()">Effacer les Logs</button>
+
+    <script src="logs.js"></script>
+    <script>
+        // Fonction pour afficher les logs dans le textarea
+        function displayLogsInTextarea() {
+            const logs = getLogs();
+            const logDisplay = document.getElementById('logDisplay');
+            logDisplay.value = logs.join("\n");
+        }
+
+        // Appeler la fonction pour afficher les logs dans le textarea
+        window.onload = displayLogsInTextarea;
+    </script>
+
+</body>
+</html>
