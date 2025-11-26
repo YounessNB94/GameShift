@@ -1,5 +1,7 @@
 <?php
-$conn = new mysqli('localhost', 'root', 'root', 'GameShift');
+// $conn = new mysqli('localhost', 'root', 'root', 'GameShift');
+    $conn = new mysqli('localhost', 'root', '', 'GameShift');
+
 if ($conn->connect_error) {
     die("Erreur de connexion : " . $conn->connect_error);
 }

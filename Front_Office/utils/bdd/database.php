@@ -3,7 +3,8 @@
 $host = 'localhost';
 $dbname = 'GameShift';
 $username = 'root';
-$password = 'root';
+$password = '';
+// $password = 'root';
 
 try {
     

@@ -2,7 +2,9 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $product_id = intval($_POST['game_id']);
 
-    $conn = new mysqli('localhost', 'root', 'root', 'GameShift');
+    // $conn = new mysqli('localhost', 'root', 'root', 'GameShift');
+        $conn = new mysqli('localhost', 'root', '', 'GameShift');
+
     if ($conn->connect_error) {
         die("Erreur de connexion : " . $conn->connect_error);
     }

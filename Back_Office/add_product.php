@@ -9,7 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stock = intval($_POST['stock']); 
     $image_url = $_POST['image_url']; 
 
-    $conn = new mysqli('localhost', 'root', 'root', 'GameShift');
+    // $conn = new mysqli('localhost', 'root', 'root', 'GameShift');
+    $conn = new mysqli('localhost', 'root', '', 'GameShift');
+
     if ($conn->connect_error) {
         die("Erreur de connexion : " . $conn->connect_error);
     }
