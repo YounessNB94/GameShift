@@ -1,0 +1,133 @@
+@startuml
+skinparam linetype polyline
+left to right direction
+
+'==================== ACTEURS ====================
+actor "Visiteur" as Visitor
+actor "Client authentifié" as Client
+actor "Administrateur" as Admin
+actor "PayPal" as PSP
+actor "Service d'envoi d'e-mails" as MailSrv
+
+'==================== CATALOGUE ====================
+rectangle "Catalogue Jeux" {
+  usecase "Parcourir le catalogue" as UC_Browse
+  usecase "Filtrer par catégorie" as UC_Filter
+  usecase "Rechercher un jeu" as UC_Search
+  usecase "Consulter fiche jeu\n(bande-annonce, image, description)" as UC_Detail
+  usecase "Ajouter au panier" as UC_AddCart
+}
+
+'==================== COMPTE & PANIER ====================
+rectangle "Compte & Panier" {
+  usecase "Créer un compte" as UC_Signup
+  usecase "Se connecter" as UC_Login
+  usecase "Accéder au panier" as UC_ViewCart
+  usecase "Modifier quantités" as UC_EditQty
+  usecase "Retirer un jeu du panier" as UC_RemoveItem
+  usecase "Passer commande" as UC_Checkout
+  usecase "Payer via PayPal" as UC_PayPal
+  usecase "Recevoir confirmation" as UC_Confirm
+  usecase "Calculer le total" as UC_CalcTotal
+  usecase "Vérifier le stock" as UC_Stock
+}
+
+'==================== COMMUNICATION & EMAILS ====================
+rectangle "Communication & Emails" {
+  usecase "Envoyer mail de vérification" as UC_VerifMail
+  usecase "Vérifier son adresse e-mail" as UC_ValidateEmail
+  usecase "Gérer abonnement newsletter" as UC_Newsletter
+  usecase "Envoyer newsletter" as UC_SendNewsletter
+  usecase "Contacter le service de paiement" as UC_ContactPay
+}
+
+'==================== ADMINISTRATION ====================
+rectangle "Administration" {
+  usecase "Gérer le catalogue" as UC_ManageCatalog
+  usecase "Gérer les commandes" as UC_ManageOrders
+  usecase "Gérer les utilisateurs" as UC_ManageUsers
+}
+
+'==================== ASSOCIATIONS VISITEUR ====================
+Visitor --> UC_Browse
+Visitor --> UC_Filter
+Visitor --> UC_Search
+Visitor --> UC_Detail
+Visitor --> UC_AddCart
+Visitor --> UC_Signup
+Visitor --> UC_Login
+Visitor --> UC_Newsletter
+
+'==================== ASSOCIATIONS CLIENT ====================
+Client --> UC_ViewCart
+Client --> UC_EditQty
+Client --> UC_RemoveItem
+Client --> UC_Checkout
+Client --> UC_Confirm
+Client --> UC_ValidateEmail
+Client --> UC_Newsletter
+
+'==================== ASSOCIATIONS ADMIN ====================
+Admin --> UC_ManageCatalog
+Admin --> UC_ManageOrders
+Admin --> UC_ManageUsers
+Admin --> UC_SendNewsletter
+Admin --> UC_ContactPay
+
+'==================== ASSOCIATIONS SERVICES EXTERNES ====================
+MailSrv --> UC_VerifMail
+MailSrv --> UC_SendNewsletter
+
+PSP --> UC_PayPal
+PSP --> UC_ContactPay
+
+'==================== FLUX INTERNES / INCLUDE / EXTEND ====================
+
+' Depuis la fiche jeu vers ajout panier
+UC_Detail --> UC_AddCart
+
+' Accéder au panier nécessite d'être connecté
+UC_ViewCart .> UC_Login : <<include>>\n(si non authentifié)
+
+' Checkout décompose le processus
+UC_Checkout .> UC_CalcTotal : <<include>>
+UC_Checkout .> UC_Stock     : <<include>>
+UC_Checkout .> UC_PayPal    : <<include>>
+UC_PayPal   .> UC_Confirm   : <<include>>
+
+' Création de compte envoie un mail de vérification
+UC_Signup .> UC_VerifMail : <<include>>
+
+' Vérifier son adresse e-mail est un scénario optionnel\nlié à la création de compte
+UC_ValidateEmail .> UC_Signup : <<extend>>\n(après réception du mail)
+
+' Gérer l'abonnement newsletter déclenche l'envoi de mails
+UC_Newsletter .> UC_SendNewsletter : <<include>>
+
+' Contacter le service de paiement est un scénario\noptionnel en cas de problème de paiement
+UC_ContactPay .> UC_PayPal : <<extend>>\n(en cas d'incident)
+
+'==================== NOTES ====================
+note right of UC_ViewCart
+Précondition : utilisateur authentifié
+Sinon : rediriger vers "Se connecter / Créer un compte"
+end note
+
+note right of UC_Signup
+À la création du compte :
+- Envoi d'un mail de vérification (include)
+- L'utilisateur peut ensuite vérifier son adresse (extend)
+end note
+
+note right of UC_Newsletter
+Permet de s'abonner / se désabonner.
+Entraîne l'envoi d'e-mails via le
+service d'envoi d'e-mails.
+end note
+
+note right of UC_ContactPay
+Utilisé en cas de problème de paiement
+(remboursement, échec de transaction, litige, etc.).
+end note
+
+@enduml

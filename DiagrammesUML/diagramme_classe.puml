@@ -1,0 +1,145 @@
+@startuml
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+skinparam sequenceParticipant underline false
+
+
+'================= INTERFACES =================
+interface Authentifiable {
+  +sAuthentifier(email: String, mdp: String): bool
+}
+
+'================= UTILISATEURS =================
+abstract class Utilisateur implements Authentifiable {
+  - id: int
+  - nom: String
+  - email: String
+  - statutCompte: String
+  - dateCreation: Date
+
+  +sAuthentifier(email: String, mdp: String): bool
+}
+
+class Client extends Utilisateur {
+  - estVerifie: bool
+  - newsletterActive: bool
+
+  +verifierEmail(): bool
+  +gererAbonnementNewsletter(actif: bool): void
+  +payerCommande(c: Commande): bool
+}
+
+class Administrateur extends Utilisateur {
+  - niveauAcces: int
+
+  +envoyerNewsletter(): void
+  +bloquerClient(c: Client): void
+  +gererCatalogue(): void
+}
+
+'================= ADRESSE =================
+class Adresse {
+  - id: int
+  - rue: String
+  - codePostal: String
+  - ville: String
+  - pays: String
+}
+
+'================= JEUX =================
+abstract class Jeu {
+  - id: int
+  - titre: String
+  - description: String
+  - genre: String
+  - prix: float
+  - ageMinimum: int
+
+  +appliquerReduction(pourcentage: float): void
+}
+
+class JeuPhysique extends Jeu {
+  - stock: int
+  - plateforme: String
+
+  +decrementerStock(qte: int): void
+}
+
+class JeuDigital extends Jeu {
+  - plateforme: String
+  - tailleGo: float
+  - cleLicence: String
+
+  +genererCleLicence(): void
+}
+
+'================= PANIER =================
+class Panier {
+  - id: int
+  - dateCreation: Date
+
+  +ajouterLigne(jeu: Jeu, quantite: int): void
+  +supprimerLigne(jeu: Jeu): void
+  +calculerTotal(): float
+  +transformerEnCommande(): Commande
+}
+
+class LignePanier {
+  - quantite: int
+  +getSousTotal(): float
+}
+
+'================= COMMANDE =================
+class Commande {
+  - id: int
+  - dateCommande: Date
+  - montantTotal: float
+  - statutPaiement: String
+  - estRembourse: bool
+
+  +calculerMontant(): float
+  +mettreAJourStatut(statut: String): void
+  +rembourser(): void
+}
+
+class LigneCommande {
+  - quantite: int
+  - prixUnitaire: float
+
+  +getSousTotal(): float
+}
+
+'================= RELATIONS =================
+
+' Utilisateur & spécialisations
+Authentifiable <|.. Utilisateur
+Utilisateur <|-- Client
+Utilisateur <|-- Administrateur
+
+' Client – Adresse (1 client, plusieurs adresses possibles)
+Client "1" o-- "0..*" Adresse : possede >
+
+' Client – Panier (1 panier actif)
+Client "1" o-- "0..1" Panier : panierActif >
+
+' Client – Commande (historique)
+Client "1" --> "0..*" Commande : passe >
+
+Utilisateur "1" --> "0..*" Jeu : consulte >
+
+' Panier – LignePanier – Jeu
+Panier "1" *-- "1..*" LignePanier
+LignePanier "1" --> "1" Jeu
+
+' Commande – LigneCommande – Jeu
+Commande "1" *-- "1..*" LigneCommande
+LigneCommande "1" --> "1" Jeu
+
+' Jeu – spécialisations
+Jeu <|-- JeuPhysique
+Jeu <|-- JeuDigital
+
+' Lien logique Panier -> Commande
+Panier --> Commande : transformeEn >
+
+@enduml

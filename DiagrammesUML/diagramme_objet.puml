@@ -1,0 +1,44 @@
+@startuml
+skinparam linetype polyline
+title Diagrammes d'objet (Avant et Après Paiement)
+
+left to right direction
+
+'=============== OBJETS AVANT PAIEMENT ===============
+object "Jeu_1 : Jeu" as Jeu1 {
+  nom = "Fantasia IV"
+  stock = 10
+}
+
+object "Panier_1 : Panier" as Panier1 {
+  etat = "Ouvert"
+  nombreLignes = 1
+}
+
+object "Commande_1 : Commande" as Cmd1 {
+  statutPaiement = "Absent"
+  montantTotal = 0.0
+}
+
+'=============== OBJETS APRES PAIEMENT ===============
+object "Jeu_1_Modifie : Jeu" as Jeu1_Mod {
+  nom = "Fantasia IV"
+  stock = 9
+}
+
+object "Panier_1_Final : Panier" as Panier1_Final {
+  etat = "Détruit/Transféré"
+  nombreLignes = 0
+}
+
+object "Commande_1_Modifie : Commande" as Cmd1_Mod {
+  statutPaiement = "Payé"
+  montantTotal = 59.99
+}
+
+'=============== LIENS DE TRANSFORMATION ===============
+Jeu1 ..> Jeu1_Mod : transformation
+Panier1 ..> Panier1_Final : transformation
+Cmd1 ..> Cmd1_Mod : transformation
+
+@enduml

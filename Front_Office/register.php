@@ -89,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->addAddress($email);
 
                 $mail->isHTML(true);
-                $mail->Subject = 'V�rification de votre compte';
-                $verification_link = "http://5.135.149.31/verifier_email.php?email=" . urlencode($email) . "&token=" . $verification_token;
-                $mail->Body = "Cliquez sur ce lien pour v�rifier votre compte : <a href='$verification_link'>V�rifier mon compte</a>";
+                $mail->Subject = 'Vérification de votre compte';
+                $verification_link = "http://localhost/gameShift/Front_Office/verifier_email.php?email=" . urlencode($email) . "&token=" . $verification_token;
+                $mail->Body = "Cliquez sur ce lien pour vérifier votre compte : <a href='$verification_link'>Vérifier mon compte</a>";
 
                 $mail->send();
-                echo "Un email de v&eacuterification a &eacutet&eacute envoy&eacute &agrave votre adresse.";
+                echo "Un email de vérification a été envoyé &agrave votre adresse.";
             } catch (Exception $e) {
-                echo "L'email n'a pas pu �tre envoy&eacute. Erreur: {$mail->ErrorInfo}";
+                echo "L'email n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
             }
         }
     } catch (PDOException $e) {

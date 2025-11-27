@@ -1,0 +1,66 @@
+@startuml
+skinparam linetype polyline
+skinparam sequenceArrowThickness 1
+skinparam sequenceParticipant underline false
+skinparam actorStyle awesome
+
+actor Client
+participant "Interface Utilisateur" as IU
+participant "Contrôleur Commande" as CC
+participant "Service Stock" as Stock
+participant "Service Paiement (Externe)" as Pay
+participant "Service BDD" as DB
+
+Client -> IU : Clique sur "Payer"\n(avec infos carte)
+IU -> CC : initierPaiement(idClient, panier, infosPaiement)
+
+alt Disponibilité OK
+  CC -> Stock : verifierDisponibilite(panier.lignes)
+  Stock --> CC : Réponse : Stock OK
+
+  note right of CC
+    Création Commande\n(statut = "En attente")
+  end note
+
+  CC -> DB : creerCommande(panier.lignes, total)
+  DB --> CC : Commande C1 créée
+
+  CC -> Pay : transmettrePaiement(montant, carte)
+
+  alt Transaction Acceptée
+    Pay --> CC : Confirmation : Acceptée
+    CC -> DB : majCommande(C1, statut="Payée")
+
+    ' >>> BOUCLE AJOUTÉE ICI <<<
+    loop Pour chaque ligne du panier
+      CC -> Stock : deduireStock(ligne)
+      Stock --> CC : Stock mis à jour
+    end
+
+    CC -> DB : supprimerPanier(idPanier)
+
+    note right of DB
+      Commande -> "Payée"\n(changement d'état)
+    end note
+
+    note right of Stock
+      Stock jeu décrémenté\n(changement d'état)
+    end note
+
+    CC -> IU : afficherConfirmation(C1.id)
+
+  else Transaction Refusée
+    Pay --> CC : Erreur : Refusée
+    CC -> DB : majCommande(C1, statut="Annulée")
+    CC -> IU : afficherErreurPaiement()
+  end
+
+else Disponibilité KO (stock insuffisant)
+  Stock --> CC : Erreur : Stock insuffisant
+  CC -> IU : afficherErreurStock()
+end
+
+== Affichage final ==
+IU -> Client : Affichage résultat\n(confirmation ou erreur)
+
+@enduml

@@ -2,7 +2,6 @@
 session_start();
 require_once 'utils/bdd/database.php';
 
-// Vérifier si un ID de jeu est passé
 if (!isset($_GET['game_id']) || $_GET['game_id'] === '') {
     echo "ERREUR : Aucun jeu sélectionné.";
     exit;
