@@ -1,4 +1,3 @@
-# GameShift
 # GameShift — Lancement en local (XAMPP)
 
 Ce projet est une application web PHP avec :
